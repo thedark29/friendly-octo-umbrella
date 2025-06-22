@@ -1,33 +1,436 @@
-# Gradle files
-.gradle/
-build/
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cardápio - Point do Yakisoba Mogi das Cruzes</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f3f4f6; /* Light gray background */
+        }
+        .container {
+            max-width: 95%; /* Increased max-width for better use of space */
+            margin: auto;
+        }
+        .menu-section {
+            background-color: #ffffff; /* White background for sections */
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .menu-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem 0;
+            border-bottom: 1px dashed #e5e7eb; /* Light gray dashed line */
+        }
+        .menu-item:last-child {
+            border-bottom: none; /* No border for the last item */
+        }
+        .menu-item-name {
+            font-weight: 600;
+            color: #1f2937; /* Darker text for names */
+        }
+        .menu-item-description {
+            font-size: 0.875rem;
+            color: #6b7280; /* Gray text for descriptions */
+        }
+        .menu-item-price {
+            font-weight: 700;
+            color: #dc2626; /* Red for prices */
+            flex-shrink: 0; /* Prevent price from shrinking */
+            margin-left: 1rem;
+        }
+        .section-title {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: #dc2626; /* Red for section titles */
+            margin-bottom: 1rem;
+            text-align: center;
+            border-bottom: 2px solid #ef4444; /* Red border below title */
+            padding-bottom: 0.5rem;
+        }
+        .promo-box {
+            background-color: #fef2f2; /* Light red background */
+            border: 2px solid #ef4444; /* Red border */
+            border-radius: 8px;
+            padding: 1rem;
+            margin-top: 1rem;
+            text-align: center;
+        }
+        .promo-box-title {
+            font-weight: 700;
+            color: #dc2626;
+            margin-bottom: 0.5rem;
+        }
+        .table-header {
+            background-color: #ef4444; /* Red background for table headers */
+            color: #ffffff; /* White text */
+            font-weight: 700;
+            padding: 0.75rem;
+            border-radius: 8px 8px 0 0;
+        }
+        /* Base table styles for all screen sizes */
+        table {
+            width: 100%; /* Ensure table takes full width of its container */
+            border-collapse: collapse; /* Collapse borders for cleaner look */
+        }
+        th, td {
+            padding: 0.75rem;
+            text-align: left;
+            vertical-align: middle;
+            border-bottom: 1px solid #e5e7eb; /* Light gray border for table cells */
+        }
+        tr:last-child td {
+            border-bottom: none; /* No border for the last row's cells */
+        }
+        .table-row.odd {
+            background-color: #f9fafb; /* Light gray for odd rows */
+        }
+        .table-cell {
+            color: #374151; /* Dark gray for cell text */
+        }
+        .table-cell.price { /* Specific style for price cells in tables */
+            font-weight: 700;
+            color: #dc2626;
+        }
 
-# Local configuration file (sdk path, etc)
-local.properties
+        /* Mobile adjustments (up to 768px wide) */
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem; /* Reduce padding on mobile */
+            }
+            .section-title {
+                font-size: 1.5rem; /* Smaller section title on mobile */
+            }
+            .table-header {
+                display: none; /* Hide table headers on small screens */
+            }
+            /* Make each table row behave like stacked blocks on mobile */
+            table, thead, tbody, th, td, tr {
+                display: block; /* Force table elements to stack */
+            }
+            tr {
+                margin-bottom: 1rem; /* Add space between stacked rows */
+                border: 1px solid #e5e7eb; /* Add border around each stacked row */
+                border-radius: 8px;
+                background-color: #ffffff;
+            }
+            td {
+                border: none; /* Remove individual cell borders when stacked */
+                position: relative;
+                padding-left: 50%; /* Make space for the "label" (data-label) */
+                text-align: right; /* Align value to the right */
+                font-size: 0.95rem; /* Slightly smaller font for table cells */
+            }
+            td:before {
+                content: attr(data-label); /* Use data-label as a pseudo-element label */
+                position: absolute;
+                left: 10px;
+                width: calc(50% - 20px); /* Adjust width of the label */
+                padding-right: 10px;
+                white-space: nowrap; /* Prevent label from wrapping */
+                font-weight: bold;
+                color: #4a5568;
+                text-align: left; /* Align label to the left */
+            }
+            /* Special handling for cells with no specific label */
+            td[data-label=""] {
+                padding-left: 10px; /* No label, no extra padding */
+                text-align: left;
+            }
+            .overflow-x-auto {
+                overflow-x: hidden; /* Prevent horizontal scroll on general container for tables */
+            }
+            .menu-item {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .menu-item-price {
+                margin-left: 0;
+                margin-top: 0.5rem;
+                align-self: flex-end;
+            }
+            .grid-cols-1.md\:grid-cols-3 {
+                grid-template-columns: 1fr; /* Ensure beverages stack on mobile */
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-100 py-8 px-4">
 
-# Log/OS Files
-*.log
+    <div class="container bg-white p-6 md:p-8 rounded-xl shadow-lg">
 
-# Android Studio generated files and folders
-captures/
-.externalNativeBuild/
-.cxx/
-*.apk
-output-metadata.json
+        <!-- Header Section -->
+        <header class="text-center mb-8">
+            <h1 class="text-4xl font-extrabold text-gray-900 mb-2">Point do Yakisoba</h1>
+            <p class="text-lg text-gray-700 mb-2">Mogi das Cruzes</p>
+            <p class="text-xl font-semibold text-red-600 mb-1">91852-0040</p>
+            <p class="text-md text-gray-600">Das 18h às 24h, de Segunda à Domingo</p>
+        </header>
 
-# IntelliJ
-*.iml
-.idea/
-misc.xml
-deploymentTargetDropDown.xml
-render.experimental.xml
+        <!-- Main Menu Sections -->
+        <main>
+            <!-- Yakisobas / Frango Xadrez / Yakimeshi / Carne com Brócolis Section -->
+            <section class="menu-section">
+                <h2 class="section-title">Yakisobas e Outros Pratos</h2>
+                <!-- Removed overflow-x-auto from here as table cells are now stacked -->
+                <table class="w-full text-left table-auto">
+                    <thead>
+                        <tr class="table-header">
+                            <th class="py-3 px-4 rounded-tl-lg">Opções</th>
+                            <th class="py-3 px-4">500g Pequena (1 P.)</th>
+                            <th class="py-3 px-4">700g Média (1 P.)</th>
+                            <th class="py-3 px-4 rounded-tr-lg">1Kg Grande (2 Pessoas)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="table-row">
+                            <td class="table-cell font-semibold" data-label="Opções">Yakisoba de Carne e Frango</td>
+                            <td class="table-cell price" data-label="500g Pequena (1 P.)">R$37,00</td>
+                            <td class="table-cell price" data-label="700g Média (1 P.)">R$44,00</td>
+                            <td class="table-cell price" data-label="1Kg Grande (2 Pessoas)">R$74,00</td>
+                        </tr>
+                        <tr class="table-row odd">
+                            <td class="table-cell font-semibold" data-label="Opções">Yakisoba de Carne</td>
+                            <td class="table-cell price" data-label="500g Pequena (1 P.)">R$31,00</td>
+                            <td class="table-cell price" data-label="700g Média (1 P.)">R$38,00</td>
+                            <td class="table-cell price" data-label="1Kg Grande (2 Pessoas)">R$68,00</td>
+                        </tr>
+                        <tr class="table-row">
+                            <td class="table-cell font-semibold" data-label="Opções">Yakisoba de Frango</td>
+                            <td class="table-cell price" data-label="500g Pequena (1 P.)">R$36,00</td>
+                            <td class="table-cell price" data-label="700g Média (1 P.)">R$43,00</td>
+                            <td class="table-cell price" data-label="1Kg Grande (2 Pessoas)">R$73,00</td>
+                        </tr>
+                        <tr class="table-row odd">
+                            <td class="table-cell font-semibold" data-label="Opções">Yakisoba de Camarão</td>
+                            <td class="table-cell price" data-label="500g Pequena (1 P.)">R$42,00</td>
+                            <td class="table-cell price" data-label="700g Média (1 P.)">R$52,00</td>
+                            <td class="table-cell price" data-label="1Kg Grande (2 Pessoas)">R$85,00</td>
+                        </tr>
+                        <tr class="table-row">
+                            <td class="table-cell font-semibold" data-label="Opções">Yakisoba de Camarão + 1 Mistura</td>
+                            <td class="table-cell price" data-label="500g Pequena (1 P.)">R$49,00</td>
+                            <td class="table-cell price" data-label="700g Média (1 P.)">R$59,00</td>
+                            <td class="table-cell price" data-label="1Kg Grande (2 Pessoas)">---</td>
+                        </tr>
+                        <tr class="table-row odd">
+                            <td class="table-cell font-semibold" data-label="Opções">Yakisoba de Bacon</td>
+                            <td class="table-cell price" data-label="500g Pequena (1 P.)">R$39,00</td>
+                            <td class="table-cell price" data-label="700g Média (1 P.)">R$44,00</td>
+                            <td class="table-cell price" data-label="1Kg Grande (2 Pessoas)">---</td>
+                        </tr>
+                        <tr class="table-row">
+                            <td class="table-cell font-semibold" data-label="Opções">Yakimeshi</td>
+                            <td class="table-cell price" data-label="500g Pequena (1 P.)">R$28,00</td>
+                            <td class="table-cell price" data-label="700g Média (1 P.)">R$38,00</td>
+                            <td class="table-cell price" data-label="1Kg Grande (2 Pessoas)">---</td>
+                        </tr>
+                        <tr class="table-row odd">
+                            <td class="table-cell font-semibold" data-label="Opções">Frango Xadrez</td>
+                            <td class="table-cell price" data-label="500g Pequena (1 P.)">R$42,00</td>
+                            <td class="table-cell price" data-label="700g Média (1 P.)">R$59,00</td>
+                            <td class="table-cell price" data-label="1Kg Grande (2 Pessoas)">---</td>
+                        </tr>
+                        <tr class="table-row">
+                            <td class="table-cell font-semibold" data-label="Opções">Carne com Brócolis</td>
+                            <td class="table-cell price" data-label="500g Pequena (1 P.)">R$39,00</td>
+                            <td class="table-cell" data-label="700g Média (1 P.)">---</td>
+                            <td class="table-cell" data-label="1Kg Grande (2 Pessoas)">---</td>
+                        </tr>
+                        <tr class="table-row odd">
+                            <td class="table-cell font-semibold" data-label="Opções">Yakisoba de Vegetais</td>
+                            <td class="table-cell" data-label="500g Pequena (1 P.)">500 Gramas</td>
+                            <td class="table-cell" data-label="700g Média (1 P.)">---</td>
+                            <td class="table-cell price" data-label="1Kg Grande (2 Pessoas)">R$28,00</td>
+                        </tr>
+                    </tbody>
+                </table>
 
-# Keystore files
-*.jks
-*.keystore
+                <div class="promo-box mt-6">
+                    <h3 class="promo-box-title text-xl">Promoção de Frango Xadrez e Yakimeshi</h3>
+                    <p class="text-gray-800">Marmitex Pequena Metade</p>
+                    <p class="text-gray-800">Frango Xadrez e Metade Yakimeshi</p>
+                    <p class="text-2xl font-extrabold text-red-700 mt-2">R$39,00</p>
+                </div>
+            </section>
 
-# Google Services (e.g. APIs or Firebase)
-google-services.json
+            <!-- Yakisoba de Carne Seca Com Tempero Nordestino Section -->
+            <section class="menu-section">
+                <h2 class="section-title">Yakisoba de Carne Seca com Tempero Nordestino</h2>
+                <div class="menu-item">
+                    <div>
+                        <p class="menu-item-name">Yakisoba de Carne Seca</p>
+                    </div>
+                    <p class="menu-item-price">R$44,00</p>
+                </div>
+                <div class="menu-item">
+                    <div>
+                        <p class="menu-item-name">Yakisoba de Carne Seca e Carne</p>
+                    </div>
+                    <p class="menu-item-price">R$89,00</p>
+                </div>
+                <div class="menu-item">
+                    <div>
+                        <p class="menu-item-name">Yakisoba de Carne Seca e Frango</p>
+                    </div>
+                    <p class="menu-item-price">R$82,00</p>
+                </div>
+            </section>
 
-# Android Profiling
-*.hprof
+            <!-- Promoções Point Section -->
+            <section class="menu-section">
+                <h2 class="section-title">Super Promoções Point do Yakisoba</h2>
+
+                <!-- Promoção Point 2 -->
+                <div class="mb-8">
+                    <h3 class="text-xl font-bold text-gray-800 mb-4 text-center">
+                        (Promoção Point 2) 2 Marmitex 700 gramas Cada + 1 Coca-Cola 600ml
+                    </h3>
+                    <table class="w-full text-left table-auto">
+                        <thead>
+                            <tr class="table-header">
+                                <th class="py-3 px-4 rounded-tl-lg">Opções</th>
+                                <th class="py-3 px-4">Serve 2 Pessoas</th>
+                                <th class="py-3 px-4 rounded-tr-lg">Brinde</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="table-row">
+                                <td class="table-cell font-semibold" data-label="Opções">2 Yakisoba de Carne</td>
+                                <td class="table-cell price" data-label="Serve 2 Pessoas">R$79,00</td>
+                                <td class="table-cell" data-label="Brinde"><span class="text-green-600 font-bold">GRÁTIS 1 Coca-Cola</span></td>
+                            </tr>
+                            <tr class="table-row odd">
+                                <td class="table-cell font-semibold" data-label="Opções">2 Yakisobas de Carne e Frango</td>
+                                <td class="table-cell price" data-label="Serve 2 Pessoas">R$76,00</td>
+                                <td class="table-cell" data-label="Brinde"><span class="text-green-600 font-bold">600ml</span></td>
+                            </tr>
+                            <tr class="table-row">
+                                <td class="table-cell font-semibold" data-label="Opções">2 Yakisobas 1 Carne e 1 Frango</td>
+                                <td class="table-cell price" data-label="Serve 2 Pessoas">R$76,00</td>
+                                <td class="table-cell" data-label="Brinde"></td>
+                            </tr>
+                            <tr class="table-row odd">
+                                <td class="table-cell font-semibold" data-label="Opções">2 Yakisobas de Frango</td>
+                                <td class="table-cell price" data-label="Serve 2 Pessoas">R$74,00</td>
+                                <td class="table-cell" data-label="Brinde"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Promoção Point 4 -->
+                <div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-4 text-center">
+                        (Promoção Point 4) 2 Marmitex 1,2 Kg Cada + 1 Pepsi 2 litros
+                    </h3>
+                    <table class="w-full text-left table-auto">
+                        <thead>
+                            <tr class="table-header">
+                                <th class="py-3 px-4 rounded-tl-lg">Opções</th>
+                                <th class="py-3 px-4">Serve 4 Pessoas</th>
+                                <th class="py-3 px-4 rounded-tr-lg">Brinde</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="table-row">
+                                <td class="table-cell font-semibold" data-label="Opções">2 Yakisoba de Carne</td>
+                                <td class="table-cell price" data-label="Serve 4 Pessoas">R$149,00</td>
+                                <td class="table-cell" data-label="Brinde"><span class="text-green-600 font-bold">GRÁTIS 1 Pepsi</span></td>
+                            </tr>
+                            <tr class="table-row odd">
+                                <td class="table-cell font-semibold" data-label="Opções">2 Yakisobas de Carne e Frango</td>
+                                <td class="table-cell price" data-label="Serve 4 Pessoas">R$129,00</td>
+                                <td class="table-cell" data-label="Brinde"><span class="text-green-600 font-bold">2 Litros</span></td>
+                            </tr>
+                            <tr class="table-row">
+                                <td class="table-cell font-semibold" data-label="Opções">2 Yakisobas 1 Carne e 1 Frango</td>
+                                <td class="table-cell price" data-label="Serve 4 Pessoas">R$109,00</td>
+                                <td class="table-cell" data-label="Brinde"></td>
+                            </tr>
+                            <tr class="table-row odd">
+                                <td class="table-cell font-semibold" data-label="Opções">2 Yakisobas de Frango</td>
+                                <td class="table-cell price" data-label="Serve 4 Pessoas">R$109,00</td>
+                                <td class="table-cell" data-label="Brinde"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Combo Point Section -->
+            <section class="menu-section">
+                <h2 class="section-title">Combo Point - Para 2 Pessoas</h2>
+                <table class="w-full text-left table-auto">
+                    <thead>
+                        <tr class="table-header">
+                            <th class="py-3 px-4 rounded-tl-lg">Opções</th>
+                            <th class="py-3 px-4">Peso Total do Pedido</th>
+                            <th class="py-3 px-4">Pode Servir</th>
+                            <th class="py-3 px-4 rounded-tr-lg">Valor</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="table-row">
+                            <td class="table-cell font-semibold" data-label="Opções">1 Yakisoba Carne 300g + 1 Yakimeshi 300g + 1 Frango Xadrez 300g</td>
+                            <td class="table-cell" data-label="Peso Total do Pedido">900 g</td>
+                            <td class="table-cell" data-label="Pode Servir">Até 2 Pessoas</td>
+                            <td class="table-cell price text-2xl" data-label="Valor">R$79,00</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <!-- Opcionais Section -->
+            <section class="menu-section">
+                <h2 class="section-title">Opcionais</h2>
+                <div class="menu-item">
+                    <div>
+                        <p class="menu-item-name">Ovo de Codorna</p>
+                        <p class="menu-item-description">Porção com 6 Ovos</p>
+                    </div>
+                    <p class="menu-item-price">R$4,80</p>
+                </div>
+            </section>
+
+            <!-- Bebidas Section -->
+            <section class="menu-section">
+                <h2 class="section-title">Bebidas</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div class="flex flex-col items-center p-4 bg-gray-50 rounded-lg shadow-sm">
+                        <img src="https://placehold.co/100x150/ef4444/ffffff?text=Coca-Cola" alt="Imagem Coca-Cola" class="mb-2 rounded-md">
+                        <p class="font-semibold text-gray-800">Coca-Cola 600ml</p>
+                        <p class="text-red-600 font-bold text-lg">R$11,00</p>
+                    </div>
+                    <div class="flex flex-col items-center p-4 bg-gray-50 rounded-lg shadow-sm">
+                        <img src="https://placehold.co/100x150/3b82f6/ffffff?text=Pepsi" alt="Imagem Pepsi" class="mb-2 rounded-md">
+                        <p class="font-semibold text-gray-800">Pepsi 2 Litros</p>
+                        <p class="text-red-600 font-bold text-lg">R$14,00</p>
+                    </div>
+                    <div class="flex flex-col items-center p-4 bg-gray-50 rounded-lg shadow-sm">
+                        <img src="https://placehold.co/100x150/ef4444/ffffff?text=Coca-Cola" alt="Imagem Coca-Cola Lata" class="mb-2 rounded-md">
+                        <p class="font-semibold text-gray-800">Coca-Cola Lata 200ml</p>
+                        <p class="text-red-600 font-bold text-lg">R$4,50</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer class="text-center mt-8 text-gray-600 text-sm">
+            <p>&copy; 2023 Point do Yakisoba. Todos os direitos reservados.</p>
+        </footer>
+
+    </div>
+
+</body>
+</html>
+
+
